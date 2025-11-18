@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>甜蜜计时（网页版）</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .countdown-container {
+            position: relative;
+            width: 600px; /* 增大容器宽度，确保文字一行显示 */
+        }
+
+        .bg-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .countdown-text {
+            position: absolute;
+            top: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: "微软雅黑", sans-serif;
+            font-size: 24px; /* 调整字体大小，适配宽度 */
+            font-weight: bold;
+            color: #ff66b2;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            margin: 0;
+            padding: 0;
+            white-space: nowrap; /* 关键：强制不换行 */
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <img src="heart_bg.png" class="bg-image" alt="背景图">
+        <p class="countdown-text" id="countdown">加载中...</p>
+    </div>
+
+    <script>
+        const targetTime = new Date('2025-11-20T13:30:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetTime - now;
+
+            if (diff > 0) {
+                const totalHours = Math.floor(diff / (1000 * 60 * 60));
+                const remainder = diff % (1000 * 60 * 60);
+                const minutes = Math.floor(remainder / (1000 * 60));
+                const seconds = Math.floor((remainder % (1000 * 60)) / 1000);
+
+                // 确保文字在同一行，去掉换行逻辑
+                document.getElementById('countdown').innerText =
+                    `倒计时：${totalHours.toString().padStart(2, '0')}小时${minutes.toString().padStart(2, '0')}分钟${seconds.toString().padStart(2, '0')}秒`;
+            } else {
+                document.getElementById('countdown').innerText = '倒计时结束！';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
